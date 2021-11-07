@@ -1,20 +1,8 @@
 name = "SXTMerger"
-uuid = "d3afdb11-3e44-4eb8-9a68-653a23ac677e"
+uuid = "73942c90-0c56-4865-bd86-0b6ea814255d"
 authors = ["Gulab Dewangan <gulabd@iucaa.in>"]
-version = "1.0.0"
+version = "0.1.0"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 FITSIO = "525bcba6-941b-5504-bd06-fd0dc1a4d2eb"
-
-[compat]
-DataFrames = "1.2.2"
-FITSIO = "0.16.10"
-julia = "1.6.3"
-
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
