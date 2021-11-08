@@ -1,5 +1,7 @@
 # SXTMerger.jl
-A tool to merge orbit-wise [AstroSat/SXT](https://www.tifr.res.in/~astrosat_sxt/index.html) event files in FITS format
+A tool to merge orbit-wise [AstroSat/SXT](https://www.tifr.res.in/~astrosat_sxt/index.html) event files in FITS format.
+
+AstroSat data are downloaded every orbit. The individual datasets may containing overlapping event lists which need to be idenified, rejected and merged. The SXTMerger tool reads the level2 event lists, bad pixel lists and the Good Time Intervals (GTIs)  from the event files from different orbits, it then checks for overlapping event data, and retains only unique events and merges the event lists. It also generated a merged GTI by merging the individual GTIs after accounting for the overlapping event data. The tools writes a merged event file with appropriate extensions, fully compatible with [Xselect package](https://heasarc.gsfc.nasa.gov/docs/software/lheasoft/ftools/xselect/index.html).
 
 ## Installation
 
