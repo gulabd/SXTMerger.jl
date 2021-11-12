@@ -3,18 +3,21 @@
 # Date : 29 October 2018
 # 
 
-"""
-    sxt_l2evtlist_merge("l2evtfilelist", "merged_evtfile.fits")
 
-    Merge the clean orbit-wise event files in FITS format from the 
-    [AstroSat/SXT]{} instrument listed in the 
-    ascii file *l2evtfilelist* and write the merged event file *merged_evtfile.fits*.
- 
-     The list of orbit-wise clean event files can be generated using a SHELL command as follows."
-"""
 
 using DataFrames, FITSIO, FITSIO.Libcfitsio
 
+"""
+    sxt_l2evtlist_merge(l2evtfilelist, merged_evtfile)
+
+Merge the level2 orbit-wise event files in FITS format from the AstroSat/SXT instrument.
+
+...
+# Arguments
+- `l2evtfilelist::String`: An ascii file listing the level2 event files for different orbits of a given SXT observation.
+- `merged_evtfile::String`: Name of the merged event file to be created.
+...
+"""
 function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
    evtfiles = readlines(l2evtfilelist)
    # Read fits event files
