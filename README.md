@@ -8,13 +8,13 @@ AstroSat data are downloaded every orbit. The individual datasets may containing
 ```julia
 julia> using Pkg
 
-julia> Pkg.add(url="https://github.com/gulabd/SXTMerger.jl")
+julia> Pkg.add("SXTMerger")
 ```
 or
 ```julia
 julia>]
 
-(@v1.6) pkg> add https://github.com/gulabd/SXTMerger.jl
+(@v1.6) pkg> add SXTMerger
 ```
 
 
