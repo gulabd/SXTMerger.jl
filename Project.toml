@@ -1,7 +1,7 @@
 name = "SXTMerger"
 uuid = "05795ded-2e6b-4fe1-8ca7-69dda6a83a16"
 authors = ["Gulab Dewangan <gulabd@iucaa.in>"]
-version = "1.0.0"
+version = "1.0.1"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
