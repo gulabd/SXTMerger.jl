@@ -1,6 +1,6 @@
 
 module SXTMerger
-using DataFrames, FITSIO, CFITSIO
+using DataFrames, FITSIO, FITSIO.Libcfitsio
 
 export sxt_l2evtlist_merge
 
