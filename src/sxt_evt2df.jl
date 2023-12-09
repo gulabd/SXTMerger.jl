@@ -2,7 +2,6 @@ using FITSIO, DataFrames, FITSIO
 
 function sxtevtlist2df(hdu::TableHDU)
 #    f=FITS(evtfile)
-  
     ti=read(hdu,"TIME")
     ccdframe = read(hdu, "CCDFrame")
         x= read(hdu, "X")

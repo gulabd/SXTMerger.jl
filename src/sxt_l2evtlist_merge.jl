@@ -1,9 +1,3 @@
-# Function to merge eventlist and write merged event file
-# Author: Gulab Dewangan
-# Date : 29 October 2018
-# 
-
-
 
 using DataFrames, FITSIO, FITSIO.Libcfitsio
 
@@ -53,8 +47,10 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
    gtilist_unique = gti_unique_or(gtilist_merged)
    badpixlist_merged=vcat(badpix_df...)
    # Retain only unique events or badpixels
-   sort!(evtlist_merged, [:TIME, :RAWX, :RAWY])
-   unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY])
+   # sort!(evtlist_merged, [:TIME, :RAWX, :RAWY])
+   sort!(evtlist_merged, :TIME)
+   # unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY])
+   unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY, :PHAS1, :PHAS2, :PHAS3, :PHAS4,:PHAS5, :PHAS6, :PHAS7, :PHAS8,:PHAS9])
    sort!(badpixlist_merged, [:RAWX, :RAWY])
    unique!(badpixlist_merged)
 
