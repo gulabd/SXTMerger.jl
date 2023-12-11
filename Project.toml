@@ -10,4 +10,4 @@ FITSIO = "525bcba6-941b-5504-bd06-fd0dc1a4d2eb"
 [compat]
 DataFrames = "1.5"
 FITSIO = "0.17"
-julia = "1.9"
+julia = "1.6.3"
