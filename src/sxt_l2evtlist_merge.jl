@@ -88,25 +88,25 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
 
 
 
-  ff=fits_create_file(merged_evtfile)
+  ff=FITSIO.Libcfitsio.fits_create_file(merged_evtfile)
   evtlist_coldef=[("TIME", "1D", "seconds"),("CCDFrame", "1J", " "),("X", "1I", "pixel"),("Y", "1I", "pixel"),("RAWX", "1I", "pixel"),("RAWY", "1I", "pixel"),("DETX", "1I", "pixel"),("DETY", "1I", "pixel"),("PHAS", "9I", "channel"),("STATUS", "16X", " "), ("PHA", "1J", " "), ("GRADE", "1I", " "),  ("PixsAbove", "1I", " "), ("PI", "1J", "channel"), ("RA", "D", " "),("Dec", "D", " "), ("PHASO", "9I", " ")]
-  fits_create_binary_tbl(ff,0,evtlist_coldef,"EVENTS")
+  FITSIO.Libcfitsio.fits_create_binary_tbl(ff,0,evtlist_coldef,"EVENTS")
   for i=1:length(evtlist_col_names)
-    fits_write_col(ff,i,1,1,evtlist_col_vals[i])
+    FITSIO.Libcfitsio.fits_write_col(ff,i,1,1,evtlist_col_vals[i])
   end
 
   gti_coldef=[("START", "1D", "s"),("STOP", "1D", "s")]
-  fits_create_binary_tbl(ff,0,gti_coldef,"STDGTI")
+  FITSIO.Libcfitsio.fits_create_binary_tbl(ff,0,gti_coldef,"STDGTI")
   for i=1:length(gti_col_names)
-    fits_write_col(ff,i,1,1,gti_col_vals[i])
+    FITSIO.Libcfitsio.fits_write_col(ff,i,1,1,gti_col_vals[i])
   end
 
   badpix_coldef=[("RAWX", "1I", " "),("RAWY", "1I"," "),("TYPE", "1I", " "),("YEXTENT", "1I"," "), ("BADFLAG", "16I", " ")]
-  fits_create_binary_tbl(ff,0,badpix_coldef,"BADPIX ")
+  FITSIO.Libcfitsio.fits_create_binary_tbl(ff,0,badpix_coldef,"BADPIX ")
   for i=1:length(badpix_col_names)
-    fits_write_col(ff,i,1,1,badpix_col_vals[i])
+    FITSIO.Libcfitsio.fits_write_col(ff,i,1,1,badpix_col_vals[i])
   end
-fits_close_file(ff)
+FITSIO.Libcfitsio.fits_close_file(ff)
 
 # Determine start-stop keywords from the list of event files
   ef = Array{FITS}(undef, length(evtfiles))
