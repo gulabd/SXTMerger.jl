@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 using DataFrames, FITSIO, FITSIO.Libcfitsio
+=======
+using DataFrames, FITSIO, CFITSIO
+>>>>>>> 707b330 (Bug fix due to cfitsio version change)
 
 """
     sxt_l2evtlist_merge(l2evtfilelist, merged_evtfile)
@@ -9,19 +13,24 @@ Merge the level2 orbit-wise event files in FITS format from the AstroSat/SXT ins
 ...
 # Arguments
 - `l2evtfilelist::String`: An ascii file listing the level2 event files for different orbits of a given SXT observation.
-- `merged_evtfile::String`: Name of the merged event file to be created.
+- `merged_evtfile::AbstractString`: Name of the merged event file to be created.
 ...
 """
-function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
+function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::AbstractString)
    evtfiles = readlines(l2evtfilelist)
+   evtfile_status_tform_16x_1i.(evtfiles)
    # Read fits event files
    f=Array{FITS}(undef, length(evtfiles))
    for i=1:length(evtfiles)
+  #= Old code
      f[i]=FITS(evtfiles[i], "r+")
      write_key(f[i][2],"TFORM10","1I")
      write_key(f[i][4],"TFORM5","1I")
      close(f[i])
    end
+   =#
+
+
    f=FITS.(evtfiles, "r+")
    evtlist=Array{TableHDU}(undef, length(evtfiles))
    badpixlist=Array{TableHDU}(undef,length(evtfiles))
@@ -36,11 +45,14 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
      evt_df[i]=sxtevtlist2df(evtlist[i])
      badpix_df[i]=sxtbadpixlist2df(badpixlist[i])
      gti_df[i]=gti2df(gtilist[i])
+    close(f[i])
+     #= Old code
      write_key(f[i][2],"TFORM10","16X")
      write_key(f[i][4],"TFORM5","16X")
-    # close(f)
+     =#
    end
-   close.(f)
+   evtfile_status_tform_1i_16x.(evtfiles)
+
    # Merge event lists and badpixel lists
    evtlist_merged=vcat(evt_df...)
    gtilist_merged = vcat(gti_df...)
@@ -53,6 +65,9 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
    unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY, :PHAS1, :PHAS2, :PHAS3, :PHAS4,:PHAS5, :PHAS6, :PHAS7, :PHAS8,:PHAS9])
    sort!(badpixlist_merged, [:RAWX, :RAWY])
    unique!(badpixlist_merged)
+
+   # Convert STATUS to UInt16
+   # evtlist_merged.STATUS = convert.(UInt16, evtlist_merged.STATUS)
 
    # Convert dataframes to vectors to be able to write to fits files
    (evtlist_col_names, evtlist_col_vals) = sxtevt_df2vec(evtlist_merged)
@@ -88,11 +103,19 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
 
 
 
+<<<<<<< HEAD
   ff=FITSIO.Libcfitsio.fits_create_file(merged_evtfile)
   evtlist_coldef=[("TIME", "1D", "seconds"),("CCDFrame", "1J", " "),("X", "1I", "pixel"),("Y", "1I", "pixel"),("RAWX", "1I", "pixel"),("RAWY", "1I", "pixel"),("DETX", "1I", "pixel"),("DETY", "1I", "pixel"),("PHAS", "9I", "channel"),("STATUS", "16X", " "), ("PHA", "1J", " "), ("GRADE", "1I", " "),  ("PixsAbove", "1I", " "), ("PI", "1J", "channel"), ("RA", "D", " "),("Dec", "D", " "), ("PHASO", "9I", " ")]
   FITSIO.Libcfitsio.fits_create_binary_tbl(ff,0,evtlist_coldef,"EVENTS")
   for i=1:length(evtlist_col_names)
     FITSIO.Libcfitsio.fits_write_col(ff,i,1,1,evtlist_col_vals[i])
+=======
+  ff=CFITSIO.fits_create_file(merged_evtfile)
+  evtlist_coldef=[("TIME", "1D", "seconds"),("CCDFrame", "1J", " "),("X", "1I", "pixel"),("Y", "1I", "pixel"),("RAWX", "1I", "pixel"),("RAWY", "1I", "pixel"),("DETX", "1I", "pixel"),("DETY", "1I", "pixel"),("PHAS", "9I", "channel"),("STATUS", "1I", " "), ("PHA", "1J", " "), ("GRADE", "1I", " "),  ("PixsAbove", "1I", " "), ("PI", "1J", "channel"), ("RA", "D", " "),("Dec", "D", " "), ("PHASO", "9I", " ")]
+  CFITSIO.fits_create_binary_tbl(ff,0,evtlist_coldef,"EVENTS")
+  for i=1:length(evtlist_col_names)
+    CFITSIO.fits_write_col(ff,i,1,1,evtlist_col_vals[i])
+>>>>>>> 707b330 (Bug fix due to cfitsio version change)
   end
 
   gti_coldef=[("START", "1D", "s"),("STOP", "1D", "s")]
@@ -101,8 +124,13 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::String)
     FITSIO.Libcfitsio.fits_write_col(ff,i,1,1,gti_col_vals[i])
   end
 
+<<<<<<< HEAD
   badpix_coldef=[("RAWX", "1I", " "),("RAWY", "1I"," "),("TYPE", "1I", " "),("YEXTENT", "1I"," "), ("BADFLAG", "16I", " ")]
   FITSIO.Libcfitsio.fits_create_binary_tbl(ff,0,badpix_coldef,"BADPIX ")
+=======
+  badpix_coldef=[("RAWX", "1I", " "),("RAWY", "1I"," "),("TYPE", "1I", " "),("YEXTENT", "1I"," "), ("BADFLAG", "1I", " ")]
+  fits_create_binary_tbl(ff,0,badpix_coldef,"BADPIX ")
+>>>>>>> 707b330 (Bug fix due to cfitsio version change)
   for i=1:length(badpix_col_names)
     FITSIO.Libcfitsio.fits_write_col(ff,i,1,1,badpix_col_vals[i])
   end
@@ -176,6 +204,9 @@ FITSIO.Libcfitsio.fits_close_file(ff)
 end
 close(ef1)
 close(mef)
+
+evtfile_status_tform_1i_16x(merged_evtfile)
 println("Merged event file: "  * merged_evtfile * " successfully written!")
 return 1
+end
 end

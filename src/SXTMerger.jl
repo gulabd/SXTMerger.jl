@@ -9,5 +9,6 @@ include("sxt_df2vec.jl")
 include("sxt_gti_merge.jl")
 include("sxt_badpix_merge.jl")
 include("sxt_evt2df.jl")
+include("evtfile_key_update.jl")
 
 end
