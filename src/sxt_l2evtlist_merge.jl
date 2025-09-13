@@ -56,9 +56,10 @@ function sxt_l2evtlist_merge(l2evtfilelist::String, merged_evtfile::AbstractStri
    badpixlist_merged=vcat(badpix_df...)
    # Retain only unique events or badpixels
    # sort!(evtlist_merged, [:TIME, :RAWX, :RAWY])
-   sort!(evtlist_merged, :TIME)
+   sort!(evtlist_merged, [:TIME, :CCDFrame,:RAWX, :RAWY])
    # unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY])
-   unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY, :PHAS1, :PHAS2, :PHAS3, :PHAS4,:PHAS5, :PHAS6, :PHAS7, :PHAS8,:PHAS9])
+   unique!(evtlist_merged, [:CCDFrame,:RAWX, :RAWY])
+  # sort!(evtlist_merged, :TIME)
    sort!(badpixlist_merged, [:RAWX, :RAWY])
    unique!(badpixlist_merged)
 
