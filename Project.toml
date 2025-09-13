@@ -10,7 +10,7 @@ FITSIO = "525bcba6-941b-5504-bd06-fd0dc1a4d2eb"
 LocalRegistry = "89398ba2-070a-4b16-a995-9893c55d93cf"
 
 [compat]
-CFITSIO = "1.7"
+CFITSIO = "1.6"
 DataFrames = "1.5"
-FITSIO = "0.17"
+FITSIO = "0.16"
 julia = "1.6.3"
