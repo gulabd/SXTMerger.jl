@@ -1,0 +1,3 @@
+using Pkg
+Pkg.Registry.rm("General")
+Pkg.Registry.add("General")
